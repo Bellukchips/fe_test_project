@@ -1,20 +1,17 @@
+import 'package:fe_test_project/applications/cubit/filter_cubit.dart';
 import 'package:fe_test_project/presentation/widgets/button_custom.dart';
 import 'package:fe_test_project/utils/color_assets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-class PeriodFilterBottomSheet extends StatefulWidget {
+class PeriodFilterBottomSheet extends StatelessWidget {
   const PeriodFilterBottomSheet({super.key});
 
   @override
-  State<PeriodFilterBottomSheet> createState() => _PeriodFilterBottomSheetState();
-}
-
-class _PeriodFilterBottomSheetState extends State<PeriodFilterBottomSheet> {
-  String selectedPeriod = "all";
-  final int currentYear = DateTime.now().year;
-
-  @override
   Widget build(BuildContext context) {
+    String? selectedPeriod = context.read<FilterCubit>().state.period;
+    final int currentYear = DateTime.now().year;
+
     return Container(
       decoration: BoxDecoration(
         color: ColorAssets.whiteColor,
@@ -54,17 +51,37 @@ class _PeriodFilterBottomSheetState extends State<PeriodFilterBottomSheet> {
             ),
           ),
 
-          _radioSelect(
-            context,
-            title: "All Time ($currentYear)",
+          RadioListTile<String>(
             value: "all",
-            subtitle: ""
+            groupValue: selectedPeriod,
+            activeColor: ColorAssets.primaryColor,
+            controlAffinity: ListTileControlAffinity.trailing,
+            title: Text(
+              "All Time ${currentYear}",
+              style: TextStyle(color: ColorAssets.blackColor),
+            ),
+            onChanged: (val) {
+              if (val != null) {
+                context.read<FilterCubit>().setPeriod(val);
+                Navigator.pop(context);
+              }
+            },
           ),
-          _radioSelect(
-            context,
-            title: "Februari - Maret 2025",
+          RadioListTile<String>(
             value: "season",
-            subtitle: "Current Season "
+            groupValue: selectedPeriod,
+            activeColor: ColorAssets.primaryColor,
+            controlAffinity: ListTileControlAffinity.trailing,
+            title: Text(
+              "Current Season",
+              style: TextStyle(color: ColorAssets.blackColor),
+            ),
+            onChanged: (val) {
+              if (val != null) {
+                context.read<FilterCubit>().setPeriod(val);
+                Navigator.pop(context);
+              }
+            },
           ),
 
           const SizedBox(height: 20),
@@ -87,28 +104,4 @@ class _PeriodFilterBottomSheetState extends State<PeriodFilterBottomSheet> {
     );
   }
 
-  /// Custom Radio Widget
-  Widget _radioSelect(
-      BuildContext context, {
-        required String title,
-        required String value,
-        required String subtitle
-      }) {
-    return RadioListTile<String>(
-      value: value,
-      groupValue: selectedPeriod,
-      activeColor: ColorAssets.primaryColor,
-      controlAffinity: ListTileControlAffinity.trailing,
-      title: Text(
-        title,
-        style: TextStyle(color: ColorAssets.blackColor),
-      ),
-      subtitle: Text(subtitle, style: TextStyle(color: ColorAssets.blackColor),),
-      onChanged: (val) {
-        setState(() {
-          selectedPeriod = val!;
-        });
-      },
-    );
-  }
 }

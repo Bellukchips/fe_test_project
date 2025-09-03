@@ -18,32 +18,35 @@ class Community {
   });
 }
 
-// models/player.dart
 class Player {
-  final int id;
-  final String name;
-  final String? username;
-  final int rank;
-  final dynamic points;
-  final String pointsUnit;
-  final String avatar;
+  final int? id;
+  final int? rank;
   final String? type;
-  final String? status;
+
+  final String name;
+  final String avatar;
+  final int points;
+  final String pointsUnit;
+  final String sport;
+  final String category;
+  final String region;
+  final String period;
 
   Player({
-    required this.id,
+    this.id,
+    this.rank,
+    this.type,
     required this.name,
-    this.username,
-    required this.rank,
+    required this.avatar,
     required this.points,
     required this.pointsUnit,
-    required this.avatar,
-    this.type,
-    this.status,
+    required this.sport,
+    required this.category,
+    required this.region,
+    required this.period,
   });
 }
 
-// models/tournament.dart
 class Tournament {
   final int id;
   final String name;
@@ -62,7 +65,6 @@ class Tournament {
   });
 }
 
-// data/dummy_data.dart
 class DummyData {
   static List<Community> getCommunities() {
     return [
@@ -115,25 +117,40 @@ class DummyData {
         id: 1,
         name: "Gilang Kencana",
         rank: 1,
-        points: "EXTRA",
-        pointsUnit: "",
+        points: 210,
+        pointsUnit: "Pts",
         avatar: "https://i.pravatar.cc/150?img=6",
+        sport: "Badminton",
+        category: "Tunggal",
+        region: "Jakarta",
+        period: "season",
+        type: "single",
       ),
       Player(
         id: 2,
         name: "Kevin Halim",
         rank: 2,
-        points: "EXTRA",
-        pointsUnit: "",
-        avatar: "7",
+        points: 198,
+        pointsUnit: "Pts",
+        avatar: "https://i.pravatar.cc/150?img=7",
+        sport: "Mini Soccer",
+        category: "Tunggal",
+        region: "Surabaya",
+        period: "all",
+        type: "single",
       ),
       Player(
         id: 3,
         name: "Narpati Lukita",
         rank: 3,
-        points: "EXTRA",
-        pointsUnit: "",
+        points: 190,
+        pointsUnit: "Pts",
         avatar: "https://i.pravatar.cc/150?img=8",
+        sport: "Basketball",
+        category: "Tunggal",
+        region: "Bandung",
+        period: "all",
+        type: "single",
       ),
     ];
   }
@@ -144,27 +161,39 @@ class DummyData {
         id: 1,
         name: "Gilang / Ravi",
         rank: 1,
-        points: "EXTRA",
-        pointsUnit: "",
+        points: 220,
+        pointsUnit: "Pts",
         avatar: "https://i.pravatar.cc/150?img=9",
+        sport: "Badminton",
+        category: "Ganda",
+        region: "Jakarta",
+        period: "season",
         type: "team",
       ),
       Player(
         id: 2,
         name: "Kevin / Kemal",
         rank: 2,
-        points: "EXTRA",
-        pointsUnit: "",
+        points: 205,
+        pointsUnit: "Pts",
         avatar: "https://i.pravatar.cc/150?img=10",
+        sport: "Mini Soccer",
+        category: "Ganda",
+        region: "Surabaya",
+        period: "all",
         type: "team",
       ),
       Player(
         id: 3,
         name: "Narpati / Lifo",
         rank: 3,
-        points: "EXTRA",
-        pointsUnit: "",
+        points: 192,
+        pointsUnit: "Pts",
         avatar: "https://i.pravatar.cc/150?img=11",
+        sport: "Basketball",
+        category: "Ganda",
+        region: "Bandung",
+        period: "all",
         type: "team",
       ),
     ];
@@ -173,40 +202,44 @@ class DummyData {
   static List<Player> getRankingPlayers() {
     return [
       Player(
-        id: 1,
-        name: "Budiman Tanuwiswa",
-        username: "@budimantanuwiswa",
-        rank: 4,
-        points: 130,
+        name: "Gilang Kencana",
+        avatar: "https://placehold.co/100x100",
+        points: 210,
         pointsUnit: "Pts",
-        avatar: "https://i.pravatar.cc/150?img=12",
+        sport: "Badminton",
+        category: "Tunggal",
+        region: "Jakarta",
+        period: "season",
       ),
       Player(
-        id: 2,
-        name: "Leo Adriansyah",
-        username: "@leo.adrain",
-        rank: 5,
-        points: 100,
+        name: "Kevin Halim",
+        avatar: "https://placehold.co/100x100",
+        points: 201,
         pointsUnit: "Pts",
-        avatar: "https://i.pravatar.cc/150?img=13",
+        sport: "Mini Soccer",
+        category: "Ganda",
+        region: "Surabaya",
+        period: "all",
       ),
       Player(
-        id: 3,
-        name: "Kemal Halim",
-        username: "@kemalhalim",
-        rank: 6,
-        points: 96,
+        name: "Narpati Lukita",
+        avatar: "https://placehold.co/100x100",
+        points: 198,
         pointsUnit: "Pts",
-        avatar: "https://i.pravatar.cc/150?img=14",
+        sport: "Basketball",
+        category: "Tim",
+        region: "Bandung",
+        period: "all",
       ),
       Player(
-        id: 4,
-        name: "Ravi Kusuma",
-        username: "@ravikusuma",
-        rank: 7,
-        points: 90,
+        name: "Narpati",
+        avatar: "https://placehold.co/100x100",
+        points: 170,
         pointsUnit: "Pts",
-        avatar: "https://i.pravatar.cc/150?img=15",
+        sport: "Mini Soccer",
+        category: "Tim",
+        region: "Tangerang",
+        period: "season",
       ),
     ];
   }

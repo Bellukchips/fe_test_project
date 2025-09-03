@@ -1,4 +1,6 @@
+import 'package:fe_test_project/applications/cubit/filter_cubit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class RegionBottomSheet extends StatefulWidget {
   const RegionBottomSheet({super.key});
@@ -11,7 +13,7 @@ class _RegionBottomSheetState extends State<RegionBottomSheet> {
   final TextEditingController _searchController = TextEditingController();
 
   final List<String> popularRegions = [
-    "DKI Jakarta",
+    "Jakarta",
     "Tangerang",
     "Bekasi",
     "Bogor",
@@ -35,14 +37,15 @@ class _RegionBottomSheetState extends State<RegionBottomSheet> {
     "Banyuwangi",
   ];
 
-  String? selectedRegion;
   String searchQuery = "";
 
   @override
   Widget build(BuildContext context) {
+    final selectedRegion = context.watch<FilterCubit>().state.region;
+
     final filteredRegions = allRegions
         .where((region) =>
-        region.toLowerCase().contains(searchQuery.toLowerCase()))
+            region.toLowerCase().contains(searchQuery.toLowerCase()))
         .toList();
 
     return SafeArea(
@@ -76,19 +79,20 @@ class _RegionBottomSheetState extends State<RegionBottomSheet> {
                 prefixIcon: const Icon(Icons.search),
                 suffixIcon: searchQuery.isNotEmpty
                     ? IconButton(
-                  icon: const Icon(Icons.close),
-                  onPressed: () {
-                    setState(() {
-                      searchQuery = "";
-                      _searchController.clear();
-                    });
-                  },
-                )
+                        icon: const Icon(Icons.close),
+                        onPressed: () {
+                          setState(() {
+                            searchQuery = "";
+                            _searchController.clear();
+                          });
+                        },
+                      )
                     : null,
-                border:
-                OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
                 contentPadding:
-                const EdgeInsets.symmetric(vertical: 10, horizontal: 12),
+                    const EdgeInsets.symmetric(vertical: 10, horizontal: 12),
               ),
               onChanged: (val) {
                 setState(() => searchQuery = val);
@@ -106,7 +110,8 @@ class _RegionBottomSheetState extends State<RegionBottomSheet> {
                     label: Text(region),
                     selected: isSelected,
                     onSelected: (_) {
-                      setState(() => selectedRegion = region);
+                      context.read<FilterCubit>().setRegion(region);
+                      Navigator.pop(context);
                     },
                     selectedColor: Colors.purple[100],
                   );
@@ -121,15 +126,18 @@ class _RegionBottomSheetState extends State<RegionBottomSheet> {
                     final region = filteredRegions[index];
                     return ListTile(
                       title: Text(region),
+                      trailing: region == selectedRegion
+                          ? const Icon(Icons.check, color: Colors.purple)
+                          : null,
                       onTap: () {
-                        Navigator.pop(context, region);
+                        context.read<FilterCubit>().setRegion(region);
+                        Navigator.pop(context);
                       },
                     );
                   },
                 ),
               ),
             ],
-
             const SizedBox(height: 20),
           ],
         ),

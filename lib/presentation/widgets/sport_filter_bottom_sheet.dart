@@ -1,6 +1,7 @@
+import 'package:fe_test_project/applications/cubit/filter_cubit.dart';
 import 'package:fe_test_project/utils/color_assets.dart';
 import 'package:flutter/material.dart';
-
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'button_custom.dart';
 
 class SportFilterBottomSheet extends StatefulWidget {
@@ -13,11 +14,14 @@ class SportFilterBottomSheet extends StatefulWidget {
 class _SportFilterBottomSheetState extends State<SportFilterBottomSheet> {
   String? selectedSport;
 
+
   final List<Map<String, dynamic>> preferenceSports = [
     {"icon": Icons.sports_tennis, "label": "Badminton"},
     {"icon": Icons.sports, "label": "Squash"},
     {"icon": Icons.sports, "label": "Padel"},
     {"icon": Icons.sports_soccer, "label": "Mini Soccer"},
+    {"icon": Icons.sports_basketball, "label": "Basketball"},
+
   ];
 
   final List<Map<String, dynamic>> allSports = [
@@ -25,6 +29,12 @@ class _SportFilterBottomSheetState extends State<SportFilterBottomSheet> {
     {"icon": Icons.sports_tennis, "label": "Tenis"},
     {"icon": Icons.sports, "label": "Pickleball"},
   ];
+
+  @override
+  void initState() {
+    super.initState();
+    selectedSport = context.read<FilterCubit>().state.sport;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -72,7 +82,8 @@ class _SportFilterBottomSheetState extends State<SportFilterBottomSheet> {
                 isEnable: selectedSport != null,
                 onTap: () {
                   if (selectedSport != null) {
-                    Navigator.pop(context, selectedSport);
+                    context.read<FilterCubit>().setSport(selectedSport!);
+                    Navigator.pop(context);
                   }
                 },
                 isLoading: false,
